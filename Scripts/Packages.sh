@@ -40,12 +40,10 @@ UPDATE_PACKAGE() {
 
 	# 处理克隆的仓库
 	if [[ $PKG_SPECIAL == "pkg" ]]; then
-		for KEYWORD in "${KEYWORDS[@]}"; do
-			find ./$REPO_NAME/*/ -maxdepth 3 -type d -iname "*$KEYWORD*" -prune -exec cp -rf {} ./ \;
-		done
-		rm -rf ./$REPO_NAME
+		find ./$REPO_NAME/*/ -maxdepth 3 -type d -iname "*$PKG_NAME*" -prune -exec cp -rf {} ./ \;
+		rm -rf ./$REPO_NAME/
 	elif [[ $PKG_SPECIAL == "name" ]]; then
-		mv -f $REPO_NAME ${KEYWORDS[0]}
+		mv -f $REPO_NAME $PKG_NAME
 	fi
 }
 
