@@ -22,6 +22,16 @@ if [ -d *"homeproxy"* ]; then
 	cd $PKG_PATH && echo "homeproxy date has been updated!"
 fi
 
+#修改Nikki运行路径
+if [ -d *"OpenWrt-nikki"* ]; then
+	cd ./OpenWrt-nikki/
+
+	sed -i 's#RUN_DIR="\$HOME_DIR/run"#RUN_DIR="/var/run/nikki"#' ./nikki/files/scripts/include.sh
+	sed -i 's#const runDir = `\${homeDir}/run`;#const runDir = `/var/run/nikki`;#' ./luci-app-nikki/htdocs/luci-static/resources/tools/nikki.js
+
+	cd $PKG_PATH && echo "nikki has been fixed!"
+fi
+
 #修改argon主题字体和颜色
 # if [ -d *"luci-theme-argon"* ]; then
 # 	cd ./luci-theme-argon/
