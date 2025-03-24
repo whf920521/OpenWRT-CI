@@ -35,12 +35,25 @@ if [ -d *"OpenWrt-nikki"* ]; then
 	cd $PKG_PATH && echo "nikki has been fixed!"
 fi
 
+#修改Nikki运行路径
+if [ -d *"OpenWrt-nikki"* ]; then
+	cd ./OpenWrt-nikki/
+
+	sed -i 's#RUN_DIR="\$HOME_DIR/run"#RUN_DIR="/var/run/nikki"#' ./nikki/files/scripts/include.sh
+	sed -i 's#const runDir = `\${homeDir}/run`;#const runDir = `/var/run/nikki`;#' ./luci-app-nikki/htdocs/luci-static/resources/tools/nikki.js
+	sed -i 's#/etc/nikki/run#/var/run/nikki#g' luci-app-nikki/root/usr/share/rpcd/acl.d/luci-app-nikki.json
+	sed -i 's#/etc/nikki/run#/var/run/nikki#g' luci-app-nikki/root/usr/share/rpcd/ucode/luci.nikki
+	sed -i 's#/etc/nikki/run#/var/run/nikki#g' nikki/files/scripts/debug.sh
+	
+	cd $PKG_PATH && echo "nikki has been fixed!"
+fi
+
 #修改argon主题字体和颜色
 # if [ -d *"luci-theme-argon"* ]; then
 # 	cd ./luci-theme-argon/
 
-# 	sed -i '/font-weight:/ {/!important/! s/\(font-weight:\s*\)[^;]*;/\1normal;/}' $(find ./luci-theme-argon -type f -iname "*.css")
-# 	sed -i "s/primary '.*'/primary '#31a1a1'/; s/'0.2'/'0.5'/; s/'none'/'bing'/" ./luci-app-argon-config/root/etc/config/argon
+# 	sed -i "/font-weight:/ { /important/! { /\/\*/! s/:.*/: var(--font-weight);/ } }" $(find ./luci-theme-argon -type f -iname "*.css")
+# 	sed -i "s/primary '.*'/primary '#31a1a1'/; s/'0.2'/'0.5'/; s/'none'/'bing'/; s/'600'/'normal'/" ./luci-app-argon-config/root/etc/config/argon
 
 # 	cd $PKG_PATH && echo "theme-argon has been fixed!"
 # fi
