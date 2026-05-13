@@ -33,7 +33,7 @@ jobs:
       #max-parallel: 3
       matrix:
         CONFIG: [IPQ807X-WIFI-YES-AX3600]
-        SOURCE: [VIKINGYFY/immortalwrt]
+        SOURCE: [whf920521/immortalwrt]
         BRANCH: [main]
 
     #调用公用编译核心WRT-CORE.yml
